@@ -35,6 +35,7 @@ public class ProtobufCompile extends AbstractCompile {
         logger.debug "ProtobufCompile using files ${getSource().getFiles()}"
         def cmd = [ getProtocPath() ]
         cmd.addAll(getSource().srcDirs*.path.collect {"-I${it}"})
+        cmd.add("-I${project.buildDir.path}/protodeps-src")
         cmd.addAll(includeDirs*.path.collect {"-I${it}"})
         cmd += "--java_out=${getDestinationDir()}"
         cmd.addAll getSource().getFiles()
