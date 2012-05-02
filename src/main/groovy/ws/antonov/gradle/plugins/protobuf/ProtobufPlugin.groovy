@@ -40,7 +40,20 @@ class ProtobufPlugin implements Plugin<Project> {
                 } as Action
                 ]
             }
+            def unpackProtosSrcDepsTaskName = sourceSet.getTaskName('unpackProtoSrcDeps', 'proto')
+            def unpackProtoSrcDepsTask = project.tasks.add(unpackProtosSrcDepsTaskName) {
+                description='Unpack proto src from dependencies'
+                actions = [
+                    {
+                        project.mkdir("${project.buildDir.path}/protodeps-src")
+                        project.configurations['protobufSrc'].files.each {file ->
+                            ant.unzip(src: file.path, dest: "${project.buildDir.path}/protodeps-src")
+                        }                       
+                    } as Action
+                ]
+            }
             generateJavaTask.dependsOn(downloadProtosTask)
+            generateJavaTask.dependsOn(unpackProtoSrcDepsTask)
             generateJavaTask.getSource().srcDir project.protoDirectory + "/" + sourceSet.getName()
             
             sourceSet.java.srcDir getGeneratedSourceDir(project, sourceSet)
