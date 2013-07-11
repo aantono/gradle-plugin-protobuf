@@ -13,6 +13,11 @@ class ProtobufConvention {
      */
     def String extractedProtosDir
 		
+    /**
+     * Whether ${sourceSet.name} should be appended to ${generatedFileDir}
+     */
+    def boolean appendSourceSetName
+
 		/**
 		 *	Directory to save java files to
 		 */

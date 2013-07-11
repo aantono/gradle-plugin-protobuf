@@ -96,7 +96,10 @@ class ProtobufPlugin implements Plugin<Project> {
         if(project.generatedFileDir != null)
 	    generatedSourceDir = project.generatedFileDir
 				
-        return "${generatedSourceDir}/${sourceSet.name}"
+        if (project.appendSourceSetName == null || project.appendSourceSetName == true)
+            return "${generatedSourceDir}/${sourceSet.name}"
+        else
+            return "${generatedSourceDir}"
     }
 
 }
